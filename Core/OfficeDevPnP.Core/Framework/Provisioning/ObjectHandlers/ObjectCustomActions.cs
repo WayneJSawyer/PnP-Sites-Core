@@ -16,6 +16,8 @@ namespace OfficeDevPnP.Core.Framework.Provisioning.ObjectHandlers
             get { return "Custom Actions"; }
         }
 
+        public override string InternalName => "CustomActions";
+
         public override TokenParser ProvisionObjects(Web web, ProvisioningTemplate template, TokenParser parser, ProvisioningTemplateApplyingInformation applyingInformation)
         {
             using (var scope = new PnPMonitoredScope(this.Name))
@@ -100,7 +102,7 @@ namespace OfficeDevPnP.Core.Framework.Provisioning.ObjectHandlers
                         Remove = customAction.Remove,
                         Rights = customAction.Rights,
                         ScriptBlock = parser.ParseString(customAction.ScriptBlock),
-                        ScriptSrc = parser.ParseString(customAction.ScriptSrc, "~site", "~sitecollection"),
+                        ScriptSrc = parser.ParseString(customAction.ScriptSrc),
                         Sequence = customAction.Sequence,
                         Title = parser.ParseString(customAction.Title),
                         Url = parser.ParseString(customAction.Url)
@@ -264,10 +266,10 @@ namespace OfficeDevPnP.Core.Framework.Provisioning.ObjectHandlers
                 existingCustomAction.ScriptBlock = parser.ParseString(customAction.ScriptBlock);
                 isDirty = true;
             }
-            if (existingCustomAction.ScriptSrc != parser.ParseString(customAction.ScriptSrc, "~site", "~sitecollection"))
+            if (existingCustomAction.ScriptSrc != parser.ParseString(customAction.ScriptSrc))
             {
                 scope.LogPropertyUpdate("ScriptSrc");
-                existingCustomAction.ScriptSrc = parser.ParseString(customAction.ScriptSrc, "~site", "~sitecollection");
+                existingCustomAction.ScriptSrc = parser.ParseString(customAction.ScriptSrc);
                 isDirty = true;
             }
             if (existingCustomAction.Sequence != customAction.Sequence)
